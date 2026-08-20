@@ -9,3 +9,4 @@ allowBuilds:
 
 overrides:
   read-cache: "1.0.0"
+  esbuild: "^0.24.2"
