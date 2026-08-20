@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { submitQuoteRequest } from "@/api/quotes";
 
 const DEFAULT_BG =
@@ -101,7 +101,7 @@ export default function Contact({ data, bgImage }) {
               label="Equipo de interés"
               value={form.equipment}
               onChange={(v) => setForm({ ...form, equipment: v })}
-              placeholder="Grúa telescópica, camabaja…"
+              placeholder="Grúa telescópica, camabaja..."
             />
             <FormField
               label="Mensaje"
@@ -111,7 +111,7 @@ export default function Contact({ data, bgImage }) {
             />
 
             <button type="submit" disabled={status === "sending"} className="btn-cta w-full disabled:opacity-50">
-              {status === "sending" ? "Enviando…" : "Enviar solicitud"}
+              {status === "sending" ? "Enviando..." : "Enviar solicitud"}
             </button>
 
             {status === "sent" && (
@@ -146,9 +146,11 @@ function PhoneField({ value, onChange, required }) {
     onChange(`${selectedCountry.code} ${inputVal}`);
   };
 
+  const phoneId = "contact-phone";
+
   return (
     <div className="space-y-1 relative">
-      <label className="font-mono text-xs uppercase tracking-wider text-muted">
+      <label htmlFor={phoneId} className="font-mono text-xs uppercase tracking-wider text-muted">
         Teléfono / WhatsApp *
       </label>
 
@@ -157,6 +159,7 @@ function PhoneField({ value, onChange, required }) {
         <div className="relative shrink-0">
           <button
             type="button"
+            aria-label="Seleccionar código de país"
             onClick={() => setDropdownOpen(!dropdownOpen)}
             className="flex items-center gap-2 px-3 py-2 border-r border-border bg-surface hover:bg-surface-2 text-sm text-foreground transition-colors focus:outline-none"
           >
@@ -202,6 +205,8 @@ function PhoneField({ value, onChange, required }) {
 
         {/* Phone Input */}
         <input
+          id={phoneId}
+          aria-label="Teléfono o WhatsApp"
           type="tel"
           value={numOnly}
           required={required}
@@ -214,12 +219,15 @@ function PhoneField({ value, onChange, required }) {
   );
 }
 
-function FormField({ label, value, onChange, textarea, required, placeholder, type = "text" }) {
+function FormField({ label, value, onChange, textarea, required, placeholder, type = "text", id }) {
+  const fieldId = id || `field-${label.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "-")}`;
   const Comp = textarea ? "textarea" : "input";
   return (
     <div className="space-y-1">
-      <label className="font-mono text-xs uppercase tracking-wider text-muted">{label}</label>
+      <label htmlFor={fieldId} className="font-mono text-xs uppercase tracking-wider text-muted">{label}</label>
       <Comp
+        id={fieldId}
+        aria-label={label}
         type={textarea ? undefined : type}
         value={value}
         required={required}

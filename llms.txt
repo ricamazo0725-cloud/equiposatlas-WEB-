@@ -1,4 +1,4 @@
-# Equipos Atlas — Web Project
+﻿# Equipos Atlas - izaje de carga maquinaria amarilla
 
 > Equipos Atlas is a single-page web application and admin portal for a heavy machinery rental and operator training company. Built with React, Vite, Tailwind CSS, and Supabase.
 
