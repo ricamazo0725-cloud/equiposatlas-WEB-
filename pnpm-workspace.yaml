@@ -4,5 +4,8 @@ packages:
 onlyBuiltDependencies:
   - esbuild
 
+allowBuilds:
+  esbuild: true
+
 overrides:
   read-cache: "1.0.0"

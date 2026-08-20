@@ -2,6 +2,7 @@
   "name": "equipos-atlas-web",
   "private": true,
   "version": "1.0.0",
+  "packageManager": "pnpm@10.15.1",
   "scripts": {
     "dev": "pnpm --filter web dev",
     "build": "chmod +x apps/web/node_modules/.bin/* 2>/dev/null; pnpm --filter web build",
