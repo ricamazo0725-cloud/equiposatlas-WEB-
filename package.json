@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cd apps/web && npx vite",
     "postinstall": "node -e \"try { require('child_process').execSync('chmod +x node_modules/.bin/* node_modules/.pnpm/*/node_modules/.bin/* node_modules/@esbuild/*/bin/* 2>/dev/null'); } catch (e) {}\"",
-    "build": "cd apps/web && npx vite build",
+    "build": "cd apps/web && npx vite build && node -e \"try { require('fs').cpSync('../../dist/apps/web', '../../dist', { recursive: true }); } catch (e) {}\"",
     "preview": "cd apps/web && npx vite preview"
   },
   "engines": {
