@@ -16,12 +16,8 @@ export default function MachineryPortfolio({ items, bgImage }) {
 
   if (items.length === 0) {
     return (
-      <section id="machinery" className="relative overflow-hidden py-24">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url('${bgImage || DEFAULT_BG}')` }}
-        />
-        <div className="absolute inset-0" style={{ background: "hsl(var(--background) / 0.7)" }} />
+      <section id="machinery" className="relative overflow-hidden py-24" style={{ backgroundColor: "#0f172a" }}>
+        <div className="absolute inset-0 pointer-events-none" style={{ backgroundSize: "40px 40px", backgroundImage: "linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px)" }} />
         <div className="relative max-w-7xl mx-auto px-6">
           <p className="text-muted font-mono text-sm">
             Todavía no hay equipos cargados. Agrégalos desde el panel admin.
@@ -32,107 +28,76 @@ export default function MachineryPortfolio({ items, bgImage }) {
   }
 
   return (
-    <section id="machinery" className="relative overflow-hidden">
-      {/* Foto de fondo */}
+    <section id="machinery" className="relative overflow-hidden" style={{ backgroundColor: "#0f172a" }}>
+      {/* Grid de fondo sutil */}
       <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url('${bgImage || DEFAULT_BG}')` }}
-      />
-      <div
-        className="absolute inset-0"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          background:
-            "linear-gradient(180deg, hsl(var(--background) / 0.55) 0%, hsl(var(--background) / 0.30) 50%, hsl(var(--background) / 0.65) 100%)",
+          backgroundSize: "40px 40px",
+          backgroundImage:
+            "linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px)",
         }}
       />
-      <div className="absolute inset-0 plate-texture opacity-15" />
+      {/* Resplandor decorativo cian */}
+      <div
+        className="absolute -top-40 -right-40 w-96 h-96 rounded-full pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(0,210,211,0.10) 0%, transparent 70%)",
+          filter: "blur(60px)",
+        }}
+      />
 
       <div className="relative max-w-7xl mx-auto px-6 py-16 sm:py-24">
         {/* Encabezado */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 sm:mb-12">
           <div>
-            <div className="font-mono text-xs uppercase tracking-widest text-accent mb-3 font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+            <div className="font-mono text-xs uppercase tracking-widest text-accent mb-3 font-bold">
               Portafolio
             </div>
-            <h2 className="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-foreground drop-shadow-[0_3px_10px_rgba(0,0,0,0.9)]">
+            <h2 className="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-foreground">
               Nuestra maquinaria
             </h2>
           </div>
-          <p className="text-sm text-foreground font-medium bg-surface/85 backdrop-blur-md p-4 rounded border border-white/10 shadow-xl leading-relaxed sm:max-w-xs">
+          <p className="text-sm text-muted font-medium p-4 rounded border border-white/10 bg-white/5 leading-relaxed sm:max-w-xs">
             Equipos certificados, mantenidos y listos para operar en terreno, con la capacidad
             exacta que exige tu proyecto.
           </p>
         </div>
 
-        {/* ── MÓVIL: Acordeón vertical ── */}
-        <div className="flex flex-col gap-3 lg:hidden">
-          {items.map((item) => {
-            const isActive = item.id === activeItem?.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => setActiveId(item.id)}
-                aria-expanded={isActive}
-                className="relative w-full rounded-xl overflow-hidden text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-all duration-500"
-                style={{
-                  minHeight: isActive ? "260px" : "72px",
-                  border: isActive ? "2px solid rgba(var(--primary-rgb, 0,210,211), 0.6)" : "1px solid rgba(255,255,255,0.1)",
-                  background: "#0f172a",
-                }}
-              >
-                {/* Imagen de fondo */}
-                {item.image_url && (
-                  <img
-                    src={item.image_url}
-                    alt={item.name}
-                    loading="lazy"
-                    decoding="async"
-                    className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-                    style={{ opacity: isActive ? 1 : 0.15 }}
-                  />
-                )}
-                {/* Overlay */}
-                <div
-                  className="absolute inset-0 transition-all duration-500"
-                  style={{
-                    background: isActive
-                      ? "linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.75) 100%)"
-                      : "rgba(15,23,42,0.85)",
-                  }}
+        {/* ── MÓVIL: Tarjetas siempre expandidas ── */}
+        <div className="flex flex-col gap-4 lg:hidden">
+          {items.map((item) => (
+            <div
+              key={item.id}
+              className="relative w-full rounded-xl overflow-hidden"
+              style={{
+                minHeight: "240px",
+                border: "1px solid rgba(255,255,255,0.12)",
+                background: "#0f172a",
+              }}
+            >
+              {/* Imagen de fondo siempre visible */}
+              {item.image_url && (
+                <img
+                  src={item.image_url}
+                  alt={item.name}
+                  loading="lazy"
+                  decoding="async"
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
+              )}
+              {/* Overlay degradado inferior */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: "linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.78) 100%)",
+                }}
+              />
 
-                {/* Contenido colapsado */}
-                <div
-                  className="relative flex items-center justify-between px-5 py-4 transition-opacity duration-300"
-                  style={{ opacity: isActive ? 0 : 1, pointerEvents: isActive ? "none" : "auto" }}
-                >
-                  <div className="flex items-center gap-3">
-                    <MachineryIcon category={item.category} className="w-7 h-7 text-accent opacity-70 shrink-0" />
-                    <div>
-                      <div className="font-mono text-[10px] uppercase tracking-widest text-accent">
-                        {CATEGORY_LABEL[item.category] || item.category}
-                      </div>
-                      <div className="font-display font-bold text-sm text-foreground leading-tight">
-                        {item.name}
-                      </div>
-                    </div>
-                  </div>
-                  {item.capacity_tons && (
-                    <div className="font-display font-extrabold text-xl text-primary shrink-0">
-                      {item.capacity_tons}
-                      <span className="text-[10px] font-body font-normal text-muted ml-0.5">t</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Contenido expandido */}
-                <div
-                  className="relative flex flex-col justify-between h-full px-5 py-5 transition-opacity duration-500"
-                  style={{
-                    opacity: isActive ? 1 : 0,
-                    minHeight: "260px",
-                    pointerEvents: isActive ? "auto" : "none",
-                  }}
+              {/* Contenido siempre visible */}
+              <div
+                className="relative flex flex-col justify-between h-full px-5 py-5"
+                  style={{ minHeight: "240px" }}
                 >
                   <div className="font-mono text-[10px] uppercase tracking-widest text-accent font-bold">
                     {CATEGORY_LABEL[item.category] || item.category}
@@ -154,10 +119,9 @@ export default function MachineryPortfolio({ items, bgImage }) {
                     )}
                   </div>
                 </div>
-              </button>
-            );
-          })}
-        </div>
+              </div>
+            ))}
+          </div>
 
         {/* ── ESCRITORIO: Tarjetas horizontales expandibles ── */}
         <div className="hidden lg:flex gap-4 h-[340px]">
