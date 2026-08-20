@@ -1,4 +1,4 @@
-import MachineryIcon from "@/components/MachineryIcon";
+﻿import MachineryIcon from "@/components/MachineryIcon";
 
 const CATEGORY_LABEL = {
   grua: "Grúa telescópica",
@@ -66,7 +66,15 @@ export default function MachineryPortfolio({ items, bgImage }) {
               >
                 {item.image_url ? (
                   <div className="relative w-full h-full">
-                    <img src={item.image_url} alt={item.name} className="absolute inset-0 w-full h-full object-cover" />
+                    <img
+                      src={item.image_url}
+                      alt={item.name}
+                      width="400"
+                      height="300"
+                      loading="lazy"
+                      decoding="async"
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
                     <div
                       className="absolute inset-0"
                       style={{

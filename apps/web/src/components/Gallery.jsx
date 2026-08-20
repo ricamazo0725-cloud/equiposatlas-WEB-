@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 
 // Se usan si el admin todavía no cargó fotos propias para la galería
 const DEFAULT_IMAGES = [
@@ -39,6 +39,9 @@ export default function Gallery({ images }) {
             <img
               src={src}
               alt="Maquinaria pesada de Equipos Atlas en terreno"
+              width="380"
+              height="260"
+              decoding="async"
               className="w-full h-full object-cover"
               loading="lazy"
             />
