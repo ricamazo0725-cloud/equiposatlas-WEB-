@@ -22,15 +22,15 @@ export default function Hero({ data, bgImage }) {
       {/* Textura de marca sutil por encima de la foto */}
       <div className="absolute inset-0 plate-texture opacity-25" />
 
-      <div className="relative max-w-7xl mx-auto px-6 pt-20 pb-16 grid lg:grid-cols-[1.3fr_0.9fr] gap-12 items-end">
+      <div className="relative max-w-7xl mx-auto px-6 pt-24 pb-12 sm:pt-24 sm:pb-16 grid lg:grid-cols-[1.3fr_0.9fr] gap-8 lg:gap-12 items-end">
         <div>
           <div className="font-mono text-xs uppercase tracking-widest text-accent mb-5">
             {data?.eyebrow || "Izaje de carga · Maquinaria amarilla · Colombia"}
           </div>
-          <h1 className="font-display font-extrabold text-5xl sm:text-7xl leading-[0.95] tracking-tight max-w-2xl">
+          <h1 className="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl leading-[0.92] tracking-tight max-w-2xl">
             {data?.title || "Potencia y precisión para tu proyecto industrial"}
           </h1>
-          <p className="mt-6 text-lg text-muted max-w-xl leading-relaxed">
+          <p className="mt-4 sm:mt-6 text-base sm:text-lg text-muted max-w-xl leading-relaxed">
             Alquiler de grúas telescópicas, y camabajas, con equipos y operadores certificados a nivel nacional.
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
@@ -48,11 +48,11 @@ export default function Hero({ data, bgImage }) {
           </div>
         </div>
 
-        <div className="spec-plate p-8">
+        <div className="hidden sm:block spec-plate p-6 sm:p-8">
           <div className="font-mono text-xs uppercase tracking-widest text-muted mb-2">
             Capacidad máxima de izaje
           </div>
-          <div className="font-display font-extrabold text-7xl leading-none text-primary">
+          <div className="font-display font-extrabold text-6xl sm:text-7xl leading-none text-primary">
             {data?.maxCapacity || "100"}
             <span className="text-2xl align-top ml-1">TON</span>
           </div>
