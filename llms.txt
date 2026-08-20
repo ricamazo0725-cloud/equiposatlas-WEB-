@@ -1,0 +1,38 @@
+# Equipos Atlas — Web Project
+
+> Equipos Atlas is a single-page web application and admin portal for a heavy machinery rental and operator training company. Built with React, Vite, Tailwind CSS, and Supabase.
+
+## Project Architecture
+- **Framework**: React (Vite) inside a pnpm monorepo structure (`apps/web`).
+- **Styling**: Tailwind CSS + Custom CSS (`apps/web/src/index.css`).
+- **Animations**: Framer Motion (`apps/web/src/components/Gallery.jsx`).
+- **Backend & Database**: Supabase (PostgreSQL, Row Level Security, Storage Buckets, Auth).
+- **Deployment**: Hostinger (Output build directory: `dist/apps/web`).
+
+## File Map & Directory Structure
+- `GUIA_DEL_PROYECTO.md`: Project guide, design tokens, data schema, and deployment rules.
+- `apps/web/src/components/`: Core UI components.
+  - `Hero.jsx`: Landing section with background media & main CTA.
+  - `MachineryPortfolio.jsx`: Bento-grid layout showing machinery inventory (`machinery_items`).
+  - `Training.jsx`: Operator training courses section (`course_items`).
+  - `Contact.jsx`: Dynamic quote request form (`quote_requests`).
+  - `Gallery.jsx`: Animated continuous scroll photo gallery.
+  - `Logo.jsx`: Vectorized official brand isotype SVG lockup.
+  - `WhatsAppButton.jsx`: Floating WhatsApp communication widget.
+- `apps/web/src/pages/`:
+  - `HomePage.jsx`: Main single-page landing view assembling all sections.
+  - `AdminDashboardPage.jsx`: Secured administration panel for managing content, machinery, courses, quotes, and media uploads.
+  - `AdminLoginPage.jsx`: Authentication page for admin access.
+- `apps/web/src/api/`: Supabase data access layer (`content.js`, `machinery.js`, `courses.js`, `quotes.js`, `media.js`).
+- `apps/web/src/lib/supabaseClient.js`: Supabase JS client configuration.
+- `apps/web/supabase/schema.sql`: Complete database setup, RLS security policies, and initial sample seed data.
+
+## Brand & Design Tokens
+- **Primary / Action**: Teal `#00A199` (`--primary`)
+- **Neutral Dark**: Charcoal `#3D3D3D` (`--charcoal`)
+- **Neutral Light**: Light Gray `#D8D8D8` (`--neutral-light`)
+- **Primary Typography**: Cocogoose Pro (body) & Space Ranger Title (headings). Fallbacks: Poppins & Oswald (Google Fonts).
+
+## Conventions & Rules
+- Do not modify core engine modules (`src/api/`, `src/hooks/`, `src/lib/`, `supabase/`) unless updating data schema contracts.
+- Modify visual layers and UI logic inside `src/pages/`, `src/components/`, and `src/index.css`.
