@@ -9,10 +9,5 @@
   },
   "engines": {
     "node": ">=20"
-  },
-  "pnpm": {
-    "overrides": {
-      "read-cache": "1.0.0"
-    }
   }
 }

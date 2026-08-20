@@ -1,2 +1,8 @@
 packages:
   - "apps/*"
+
+onlyBuiltDependencies:
+  - esbuild
+
+overrides:
+  read-cache: "1.0.0"
