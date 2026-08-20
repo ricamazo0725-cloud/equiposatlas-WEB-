@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { submitQuoteRequest } from "@/api/quotes";
 
 const DEFAULT_BG =
@@ -41,53 +41,37 @@ export default function Contact({ data, bgImage }) {
   const contactEmail = "gerencia@equiposatlas.com";
 
   return (
-    <section id="contact" className="relative overflow-hidden">
-      {/* Foto de fondo */}
+    <section id="contact" className="relative overflow-hidden min-h-[520px] flex">
+
+      {/* ── LADO IZQUIERDO: Formulario ── */}
       <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url('${bgImage || DEFAULT_BG}')`,
-        }}
-      />
-      {/* Degradado para legibilidad, dejando ver la foto */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(180deg, hsl(var(--background) / 0.6) 0%, hsl(var(--background) / 0.5) 50%, hsl(var(--background) / 0.7) 100%)",
-        }}
-      />
-      {/* Textura de marca sutil por encima de la foto */}
-      <div className="absolute inset-0 plate-texture opacity-25" />
+        className="relative z-10 w-full lg:w-1/2 flex flex-col justify-center px-8 py-16 lg:px-14"
+        style={{ background: "#0d1117" }}
+      >
+        {/* Etiqueta */}
+        <div
+          className="font-mono text-xs uppercase tracking-widest mb-3 font-bold"
+          style={{ color: "#00d2d3" }}
+        >
+          Contacto
+        </div>
 
-      <div className="relative max-w-7xl mx-auto px-6 py-24">
-        <div className="grid lg:grid-cols-2 gap-12">
-          <div>
-            <div className="font-mono text-xs uppercase tracking-widest text-accent mb-3">
-              Contacto
-            </div>
-            <h2 className="font-display font-extrabold text-4xl sm:text-5xl tracking-tight mb-6">
-              Solicita tu cotización
-            </h2>
-            <p className="text-muted leading-relaxed max-w-md mb-8">
-              Cuéntanos qué equipo necesitas y por cuánto tiempo. Te respondemos con disponibilidad
-              y tarifa el mismo día hábil.
-            </p>
+        <h2
+          className="font-display font-black text-3xl sm:text-4xl uppercase tracking-tight mb-8"
+          style={{ color: "#ffffff" }}
+        >
+          Solicita tu cotización
+        </h2>
 
-            <a href={whatsappHref} target="_blank" rel="noreferrer" className="btn-cta inline-block">
-              Contacto vía WhatsApp
-            </a>
-
-            <div className="mt-8 font-mono text-sm text-muted">
-              También por correo:{" "}
-              <a href={`mailto:${contactEmail}`} className="text-foreground hover:text-primary">
-                {contactEmail}
-              </a>
-            </div>
-          </div>
-
-          <form onSubmit={handleSubmit} className="spec-plate p-8 space-y-4">
-            <FormField label="Nombre" value={form.name} onChange={(v) => setForm({ ...form, name: v })} required />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Fila: Nombre + Correo */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <FormField
+              label="Nombre"
+              value={form.name}
+              onChange={(v) => setForm({ ...form, name: v })}
+              required
+            />
             <FormField
               label="Correo Electrónico"
               type="email"
@@ -96,6 +80,10 @@ export default function Contact({ data, bgImage }) {
               placeholder="ejemplo@correo.com"
               required
             />
+          </div>
+
+          {/* Fila: Teléfono + Equipo */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <PhoneField value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} required />
             <FormField
               label="Equipo de interés"
@@ -103,34 +91,82 @@ export default function Contact({ data, bgImage }) {
               onChange={(v) => setForm({ ...form, equipment: v })}
               placeholder="Grúa telescópica, camabaja..."
             />
-            <FormField
-              label="Mensaje"
-              value={form.message}
-              onChange={(v) => setForm({ ...form, message: v })}
-              textarea
-            />
+          </div>
 
-            <button type="submit" disabled={status === "sending"} className="btn-cta w-full disabled:opacity-50">
-              {status === "sending" ? "Enviando..." : "Enviar solicitud"}
-            </button>
+          {/* Mensaje */}
+          <FormField
+            label="Mensaje"
+            value={form.message}
+            onChange={(v) => setForm({ ...form, message: v })}
+            textarea
+          />
 
-            {status === "sent" && (
-              <p className="font-mono text-xs text-primary">Solicitud enviada. Te contactaremos pronto.</p>
-            )}
-            {status === "error" && (
-              <p className="font-mono text-xs text-danger">
-                No se pudo enviar. Escríbenos directo por WhatsApp.
-              </p>
-            )}
-          </form>
+          {/* Botón enviar */}
+          <button
+            type="submit"
+            disabled={status === "sending"}
+            className="w-full py-3 font-display font-bold text-sm uppercase tracking-widest transition-all duration-200 disabled:opacity-50"
+            style={{
+              background: "#00d2d3",
+              color: "#0d1117",
+              border: "none",
+              letterSpacing: "0.15em",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "#00b8b9")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "#00d2d3")}
+          >
+            {status === "sending" ? "Enviando..." : "Enviar"}
+          </button>
+
+          {status === "sent" && (
+            <p className="font-mono text-xs" style={{ color: "#00d2d3" }}>
+              Solicitud enviada. Te contactaremos pronto.
+            </p>
+          )}
+          {status === "error" && (
+            <p className="font-mono text-xs text-red-400">
+              No se pudo enviar.{" "}
+              <a href={whatsappHref} target="_blank" rel="noreferrer" style={{ color: "#00d2d3" }}>
+                Escríbenos por WhatsApp.
+              </a>
+            </p>
+          )}
+        </form>
+
+        {/* Correo debajo */}
+        <div className="mt-6 font-mono text-xs" style={{ color: "#64748b" }}>
+          También por correo:{" "}
+          <a href={`mailto:${contactEmail}`} style={{ color: "#94a3b8" }}>
+            {contactEmail}
+          </a>
         </div>
+      </div>
+
+      {/* ── LADO DERECHO: Foto ── */}
+      <div className="hidden lg:block lg:w-1/2 relative">
+        <img
+          src={bgImage || DEFAULT_BG}
+          alt="Maquinaria pesada en obra"
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="lazy"
+          decoding="async"
+        />
+        {/* Degradado sutil izquierda para unir con el formulario */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "linear-gradient(to right, #0d1117 0%, transparent 25%)",
+          }}
+        />
       </div>
     </section>
   );
 }
 
+/* ── Componentes auxiliares ── */
+
 function PhoneField({ value, onChange, required }) {
-  const [selectedCountry, setSelectedCountry] = useState(COUNTRY_CODES[0]); // Colombia (+57)
+  const [selectedCountry, setSelectedCountry] = useState(COUNTRY_CODES[0]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const numOnly = value ? value.replace(/^\+\d+\s*/, "") : "";
@@ -142,52 +178,63 @@ function PhoneField({ value, onChange, required }) {
   };
 
   const handleNumberChange = (e) => {
-    const inputVal = e.target.value;
-    onChange(`${selectedCountry.code} ${inputVal}`);
+    onChange(`${selectedCountry.code} ${e.target.value}`);
   };
-
-  const phoneId = "contact-phone";
 
   return (
     <div className="space-y-1 relative">
-      <label htmlFor={phoneId} className="font-mono text-xs uppercase tracking-wider text-muted">
+      <label className="font-mono text-xs uppercase tracking-wider" style={{ color: "#64748b" }}>
         Teléfono / WhatsApp *
       </label>
-
-      <div className="flex items-center bg-surface-2 border border-border focus-within:border-primary focus-within:ring-1 focus-within:ring-primary rounded-none transition-colors">
-        {/* Country Selector Button */}
+      <div
+        className="flex items-center"
+        style={{
+          background: "#161d2b",
+          border: "1px solid #1e2d3d",
+        }}
+      >
+        {/* Selector país */}
         <div className="relative shrink-0">
           <button
             type="button"
             aria-label="Seleccionar código de país"
             onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="flex items-center gap-2 px-3 py-2 border-r border-border bg-surface hover:bg-surface-2 text-sm text-foreground transition-colors focus:outline-none"
+            className="flex items-center gap-2 px-3 py-2 text-sm transition-colors focus:outline-none"
+            style={{
+              borderRight: "1px solid #1e2d3d",
+              background: "transparent",
+              color: "#f1f5f9",
+            }}
           >
             <img
               src={`https://flagcdn.com/w40/${selectedCountry.iso}.png`}
               alt={selectedCountry.name}
               className="w-5 h-3.5 object-cover rounded-[1px] shadow-sm"
             />
-            <span className="font-mono text-[10px] text-muted">▼</span>
-            <span className="font-mono text-xs font-semibold text-foreground">{selectedCountry.code}</span>
+            <span className="font-mono text-[10px]" style={{ color: "#64748b" }}>▼</span>
+            <span className="font-mono text-xs font-semibold">{selectedCountry.code}</span>
           </button>
 
-          {/* Custom Popover Dropdown */}
           {dropdownOpen && (
             <>
+              <div className="fixed inset-0 z-40" onClick={() => setDropdownOpen(false)} />
               <div
-                className="fixed inset-0 z-40"
-                onClick={() => setDropdownOpen(false)}
-              />
-              <div className="absolute top-full left-0 mt-1 w-64 bg-surface border border-border rounded-none shadow-2xl z-50 max-h-60 overflow-y-auto">
+                className="absolute top-full left-0 mt-1 w-64 shadow-2xl z-50 max-h-60 overflow-y-auto"
+                style={{ background: "#161d2b", border: "1px solid #1e2d3d" }}
+              >
                 {COUNTRY_CODES.map((country) => (
                   <button
                     key={country.iso + country.code}
                     type="button"
                     onClick={() => handleSelectCountry(country)}
-                    className={`w-full flex items-center gap-3 px-3 py-2.5 text-left text-xs font-mono hover:bg-primary/20 hover:text-primary transition-colors border-b border-border/40 ${
-                      selectedCountry.iso === country.iso ? "bg-primary/10 text-primary font-bold" : "text-foreground"
-                    }`}
+                    className="w-full flex items-center gap-3 px-3 py-2.5 text-left text-xs font-mono transition-colors"
+                    style={{
+                      borderBottom: "1px solid #1e2d3d",
+                      background:
+                        selectedCountry.iso === country.iso ? "rgba(0,210,211,0.1)" : "transparent",
+                      color:
+                        selectedCountry.iso === country.iso ? "#00d2d3" : "#f1f5f9",
+                    }}
                   >
                     <img
                       src={`https://flagcdn.com/w40/${country.iso}.png`}
@@ -195,7 +242,7 @@ function PhoneField({ value, onChange, required }) {
                       className="w-5 h-3.5 object-cover rounded-[1px] shadow-sm shrink-0"
                     />
                     <span className="font-semibold w-12">{country.code}</span>
-                    <span className="truncate text-muted">{country.name}</span>
+                    <span className="truncate" style={{ color: "#64748b" }}>{country.name}</span>
                   </button>
                 ))}
               </div>
@@ -203,28 +250,31 @@ function PhoneField({ value, onChange, required }) {
           )}
         </div>
 
-        {/* Phone Input */}
+        {/* Input número */}
         <input
-          id={phoneId}
+          id="contact-phone"
           aria-label="Teléfono o WhatsApp"
           type="tel"
           value={numOnly}
           required={required}
           placeholder="300 000 0000"
           onChange={handleNumberChange}
-          className="w-full bg-transparent px-3 py-2 text-sm text-foreground focus:outline-none font-mono"
+          className="w-full px-3 py-2 text-sm font-mono focus:outline-none"
+          style={{ background: "transparent", color: "#f1f5f9" }}
         />
       </div>
     </div>
   );
 }
 
-function FormField({ label, value, onChange, textarea, required, placeholder, type = "text", id }) {
-  const fieldId = id || `field-${label.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "-")}`;
+function FormField({ label, value, onChange, textarea, required, placeholder, type = "text" }) {
+  const fieldId = `field-${label.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "-")}`;
   const Comp = textarea ? "textarea" : "input";
   return (
     <div className="space-y-1">
-      <label htmlFor={fieldId} className="font-mono text-xs uppercase tracking-wider text-muted">{label}</label>
+      <label htmlFor={fieldId} className="font-mono text-xs uppercase tracking-wider" style={{ color: "#64748b" }}>
+        {label}
+      </label>
       <Comp
         id={fieldId}
         aria-label={label}
@@ -234,7 +284,14 @@ function FormField({ label, value, onChange, textarea, required, placeholder, ty
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
         rows={textarea ? 3 : undefined}
-        className="w-full bg-surface-2 border border-border rounded-none px-3 py-2 text-sm focus-ring"
+        className="w-full px-3 py-2 text-sm focus:outline-none transition-colors"
+        style={{
+          background: "#161d2b",
+          border: "1px solid #1e2d3d",
+          color: "#f1f5f9",
+        }}
+        onFocus={(e) => (e.currentTarget.style.borderColor = "#00d2d3")}
+        onBlur={(e) => (e.currentTarget.style.borderColor = "#1e2d3d")}
       />
     </div>
   );

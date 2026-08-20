@@ -1,4 +1,5 @@
-﻿import MachineryIcon from "@/components/MachineryIcon";
+import { useState } from "react";
+import MachineryIcon from "@/components/MachineryIcon";
 
 const CATEGORY_LABEL = {
   grua: "Grúa telescópica",
@@ -6,38 +7,38 @@ const CATEGORY_LABEL = {
   camabaja: "Camabaja",
 };
 
-// Ciclo de 4 posiciones que produce una cuadrícula asimétrica sin importar cuántos ítems haya
-const SPAN_PATTERN = [
-  "sm:col-span-2 sm:row-span-2",
-  "sm:col-span-1 sm:row-span-1",
-  "sm:col-span-1 sm:row-span-2",
-  "sm:col-span-2 sm:row-span-1",
-];
-
 const DEFAULT_BG =
   "https://wzkuypovnxxoaylyjwgm.supabase.co/storage/v1/object/public/fotos/maquinariapesada5.jpg";
 
 export default function MachineryPortfolio({ items, bgImage }) {
+  const [activeId, setActiveId] = useState(items[0]?.id ?? null);
+
+  // Sincronizar activeId si los items cambian y el activo ya no existe
+  const activeItem = items.find((i) => i.id === activeId) ?? items[0] ?? null;
+
+  function toggle(id) {
+    setActiveId(id);
+  }
+
   return (
     <section id="machinery" className="relative overflow-hidden">
       {/* Foto de fondo */}
       <div
         className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url('${bgImage || DEFAULT_BG}')`,
-        }}
+        style={{ backgroundImage: `url('${bgImage || DEFAULT_BG}')` }}
       />
-      {/* Capa clara para legibilidad, permitiendo destacar la foto de fondo */}
+      {/* Overlay */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, hsl(var(--background) / 0.35) 0%, hsl(var(--background) / 0.15) 50%, hsl(var(--background) / 0.45) 100%)",
+            "linear-gradient(180deg, hsl(var(--background) / 0.55) 0%, hsl(var(--background) / 0.30) 50%, hsl(var(--background) / 0.65) 100%)",
         }}
       />
       <div className="absolute inset-0 plate-texture opacity-15" />
 
       <div className="relative max-w-7xl mx-auto px-6 py-24">
+        {/* Encabezado */}
         <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
           <div>
             <div className="font-mono text-xs uppercase tracking-widest text-accent mb-3 font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
@@ -53,78 +54,132 @@ export default function MachineryPortfolio({ items, bgImage }) {
           </p>
         </div>
 
+        {/* Tarjetas expandibles */}
         {items.length === 0 ? (
           <p className="text-muted font-mono text-sm">
             Todavía no hay equipos cargados. Agrégalos desde el panel admin.
           </p>
         ) : (
-          <div className="grid sm:grid-cols-4 auto-rows-[160px] gap-4">
-            {items.map((item, i) => (
-              <div
-                key={item.id}
-                className={`spec-plate overflow-hidden !bg-surface/60 backdrop-blur-md border border-white/10 shadow-2xl transition-all duration-300 hover:border-primary/60 hover:!bg-surface/80 ${SPAN_PATTERN[i % SPAN_PATTERN.length]}`}
-              >
-                {item.image_url ? (
-                  <div className="relative w-full h-full">
+          <div className="flex gap-4 h-[340px]">
+            {items.map((item) => {
+              const isActive = item.id === activeItem?.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => toggle(item.id)}
+                  aria-expanded={isActive}
+                  className="relative rounded-xl overflow-hidden border border-white/10 shadow-2xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  style={{
+                    flex: isActive ? "4 1 0%" : "1 1 0%",
+                    minWidth: isActive ? "0" : "80px",
+                    transition: "flex 0.5s cubic-bezier(0.4,0,0.2,1)",
+                    background: "#0f172a",
+                  }}
+                >
+                  {/* Imagen de fondo de la tarjeta */}
+                  {item.image_url && (
                     <img
                       src={item.image_url}
                       alt={item.name}
-                      width="400"
-                      height="300"
                       loading="lazy"
                       decoding="async"
                       className="absolute inset-0 w-full h-full object-cover"
-                    />
-                    <div
-                      className="absolute inset-0"
                       style={{
-                        background:
-                          "linear-gradient(180deg, hsl(var(--background) / 0.15) 0%, hsl(var(--background) / 0.75) 100%)",
+                        opacity: isActive ? 1 : 0.18,
+                        transition: "opacity 0.5s ease",
                       }}
                     />
-                    <div className="relative h-full p-6 flex flex-col justify-between">
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="font-mono text-[10px] uppercase tracking-widest text-accent">
-                          {CATEGORY_LABEL[item.category] || item.category}
-                        </div>
-                      </div>
-                      <div>
-                        <h3 className="font-display font-bold text-xl leading-tight">{item.name}</h3>
-                        {item.capacity_tons && (
-                          <div className="font-display font-extrabold text-3xl text-primary">
-                            {item.capacity_tons}
-                            <span className="text-sm font-body font-normal text-muted ml-1">ton</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="p-6 h-full flex flex-col justify-between">
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <div className="font-mono text-[10px] uppercase tracking-widest text-accent mb-1">
-                          {CATEGORY_LABEL[item.category] || item.category}
-                        </div>
-                        <h3 className="font-display font-bold text-xl leading-tight">{item.name}</h3>
-                      </div>
-                      <MachineryIcon category={item.category} className="w-9 h-9 text-muted shrink-0" />
-                    </div>
+                  )}
 
-                    {item.description && (
-                      <p className="text-sm text-muted leading-snug line-clamp-3">{item.description}</p>
-                    )}
+                  {/* Overlay degradado */}
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background: isActive
+                        ? "linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.70) 100%)"
+                        : "linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.85) 100%)",
+                      transition: "background 0.5s ease",
+                    }}
+                  />
 
+                  {/* Contenido colapsado (texto vertical) — visible solo cuando está inactivo */}
+                  <div
+                    className="absolute inset-0 flex flex-col items-center justify-end p-4 gap-2"
+                    style={{
+                      opacity: isActive ? 0 : 1,
+                      transition: "opacity 0.3s ease",
+                      pointerEvents: isActive ? "none" : "auto",
+                    }}
+                  >
+                    <MachineryIcon
+                      category={item.category}
+                      className="w-8 h-8 text-accent opacity-70 mb-auto mt-4"
+                    />
+                    <span
+                      className="font-display font-bold text-xs text-foreground leading-tight text-center"
+                      style={{
+                        writingMode: "vertical-rl",
+                        textOrientation: "mixed",
+                        transform: "rotate(180deg)",
+                        letterSpacing: "0.05em",
+                      }}
+                    >
+                      {item.name}
+                    </span>
                     {item.capacity_tons && (
-                      <div className="font-display font-extrabold text-3xl text-primary">
+                      <span className="font-display font-extrabold text-lg text-primary leading-none">
                         {item.capacity_tons}
-                        <span className="text-sm font-body font-normal text-muted ml-1">ton</span>
-                      </div>
+                        <span className="text-[10px] font-body font-normal text-muted ml-0.5">t</span>
+                      </span>
                     )}
                   </div>
-                )}
-              </div>
-            ))}
+
+                  {/* Contenido expandido — visible solo cuando está activo */}
+                  <div
+                    className="absolute inset-0 p-6 flex flex-col justify-between"
+                    style={{
+                      opacity: isActive ? 1 : 0,
+                      transition: "opacity 0.4s ease 0.15s",
+                      pointerEvents: isActive ? "auto" : "none",
+                    }}
+                  >
+                    {/* Top: categoría */}
+                    <div className="font-mono text-[10px] uppercase tracking-widest text-accent font-bold drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
+                      {CATEGORY_LABEL[item.category] || item.category}
+                    </div>
+
+                    {/* Bottom: nombre + capacidad */}
+                    <div>
+                      <h3 className="font-display font-bold text-2xl sm:text-3xl leading-tight text-foreground drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] mb-2">
+                        {item.name}
+                      </h3>
+                      {item.description && (
+                        <p className="text-sm text-foreground/80 leading-snug line-clamp-2 mb-3 drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
+                          {item.description}
+                        </p>
+                      )}
+                      {item.capacity_tons && (
+                        <div className="font-display font-extrabold text-4xl text-primary drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                          {item.capacity_tons}
+                          <span className="text-sm font-body font-normal text-muted ml-1">TON</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Borde activo */}
+                  <div
+                    className="absolute inset-0 rounded-xl pointer-events-none"
+                    style={{
+                      boxShadow: isActive
+                        ? "inset 0 0 0 2px hsl(var(--primary) / 0.6)"
+                        : "inset 0 0 0 1px rgba(255,255,255,0.08)",
+                      transition: "box-shadow 0.4s ease",
+                    }}
+                  />
+                </button>
+              );
+            })}
           </div>
         )}
       </div>
