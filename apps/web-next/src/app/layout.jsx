@@ -31,6 +31,9 @@ export const metadata = {
   title: "Equipos Atlas | Izaje de Carga y Maquinaria Amarilla",
   description:
     "Equipos Atlas — Alquiler de grúas telescópicas, telehandlers y camabajas para izaje de carga industrial en Colombia. Capacitación y cursos de manejo certificados.",
+  alternates: {
+    canonical: SITE_URL,
+  },
   icons: {
     icon: LOGO_URL,
     apple: LOGO_URL,
