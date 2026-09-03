@@ -118,3 +118,39 @@ Si ya tenías un proyecto de Supabase corriendo desde antes de este cambio,
 corre solo la parte nueva del `schema.sql` (la sección de `storage.buckets`
 y las políticas de `storage.objects`, más el `insert` de `site_content` con
 `section = 'media'`) para no reinsertar lo que ya existía.
+
+
+## 8. Migración a Next.js (apps/web-next)
+
+Se agregó `apps/web-next` como el sitio nuevo en Next.js (App Router), en
+paralelo a `apps/web` (Vite), sin tocar el original. Puntos clave:
+
+- **Home renderizado en servidor**: `src/app/page.jsx` es un Server
+  Component que pide los datos a Supabase en cada visita
+  (`export const dynamic = "force-dynamic"` + fetch con `cache: "no-store"`
+  en `src/lib/supabaseClient.js`), así que los cambios publicados desde
+  `/admin` siguen viéndose al instante, igual que en el sitio Vite, pero
+  ahora el HTML que reciben los buscadores ya trae el contenido real (antes
+  llegaba un `<div id="root">` vacío).
+- **SEO agregado que no existía antes**: `src/app/sitemap.js`,
+  `src/app/robots.js` (bloquea `/admin`) y datos estructurados
+  JSON-LD (`LocalBusiness`) en `src/app/layout.jsx`.
+- **Tipografías**: Oswald/Poppins/IBM Plex Mono ahora se cargan con
+  `next/font/google` (autohospedadas, sin depender de
+  fonts.googleapis.com en el navegador del visitante) en vez del `<link>`
+  de Google Fonts. Las fuentes con licencia (Cocogoose Pro / Space Ranger
+  Title) siguen funcionando igual vía `@font-face` en
+  `src/app/globals.css` si colocas los `.woff2` en `public/fonts/`.
+- **Variables de entorno**: cambian de `VITE_SUPABASE_URL` /
+  `VITE_SUPABASE_ANON_KEY` a `NEXT_PUBLIC_SUPABASE_URL` /
+  `NEXT_PUBLIC_SUPABASE_ANON_KEY` (ver `apps/web-next/.env.example`).
+  Como se leen en tiempo de build, cualquier cambio de valor requiere un
+  redeploy completo, no solo un reinicio.
+- **Gestor de paquetes**: `apps/web-next` está excluido del workspace de
+  pnpm (`!apps/web-next` en `pnpm-workspace.yaml`) y se instala con
+  **npm** (`package-lock.json` propio), para evitar symlinks de pnpm que
+  Hostinger no puede resolver cuando el proceso de Node corre aislado a esa
+  subcarpeta.
+- **Despliegue**: pensado para "Node.js Apps" de Hostinger — directorio raíz
+  `apps/web-next`, comando de arranque `node server.js` (incluido, ya
+  que `next start` no sirve como "archivo de entrada").
