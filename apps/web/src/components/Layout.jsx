@@ -54,7 +54,16 @@ export default function Layout({ children }) {
           <Logo className="h-9 w-auto" showTagline={false} />
           <div className="flex flex-col sm:items-end gap-1 text-xs text-muted font-mono">
             <span>© {new Date().getFullYear()} Equipos Atlas — Izaje de carga y maquinaria amarilla</span>
-            <span>gerencia@equiposatlas.com · Cobertura nacional · Colombia</span>
+            <span>
+              <a href="mailto:gerencia@equiposatlas.com" className="hover:text-foreground transition-colors">
+                gerencia@equiposatlas.com
+              </a>
+              {" · "}
+              <a href="tel:+573003085965" className="hover:text-foreground transition-colors">
+                +57 300 308 5965
+              </a>
+              {" · Cobertura nacional en Colombia"}
+            </span>
           </div>
         </div>
       </footer>

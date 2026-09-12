@@ -28,10 +28,10 @@ export default function Hero({ data, bgImage }) {
             {data?.eyebrow || "Izaje de carga · Maquinaria amarilla · Colombia"}
           </div>
           <h1 className="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl leading-[0.92] tracking-tight max-w-2xl">
-            {data?.title || "Potencia y precisión para tu proyecto industrial"}
+            {data?.title || "Grúas telescópicas y maquinaria pesada para tu proyecto industrial en Colombia"}
           </h1>
           <p className="mt-4 sm:mt-6 text-base sm:text-lg text-muted max-w-xl leading-relaxed">
-            Alquiler de grúas telescópicas, y camabajas, con equipos y operadores certificados a nivel nacional.
+            Alquiler de grúas telescópicas, telehandlers y camabajas, con equipos y operadores certificados a nivel nacional en Colombia.
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
             <a href="#contact" className="btn-cta">
