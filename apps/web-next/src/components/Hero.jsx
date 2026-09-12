@@ -31,7 +31,7 @@ export default function Hero({ data, bgImage }) {
             {data?.title || "Izaje de carga industrial Colombia"}
           </h1>
           <p className="mt-4 sm:mt-6 text-base sm:text-lg text-muted max-w-xl leading-relaxed">
-            Alquiler de grúas telescópicas, y camabajas, con equipos y operadores certificados a nivel nacional.
+            Alquiler de grúas telescópicas, telehandlers y camabajas, con equipos y operadores certificados a nivel nacional en Colombia.
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
             <a href="#contact" className="btn-cta">

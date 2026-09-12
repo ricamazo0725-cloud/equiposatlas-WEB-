@@ -28,9 +28,9 @@ const LOGO_URL =
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Equipos Atlas | Izaje de Carga y Maquinaria Amarilla",
+  title: "Equipos Atlas | Grúas Telescópicas y Maquinaria Pesada Colombia",
   description:
-    "Equipos Atlas — Alquiler de grúas telescópicas, telehandlers y camabajas para izaje de carga industrial en Colombia. Capacitación y cursos de manejo certificados.",
+    "Alquiler de grúas telescópicas, telehandlers y camabajas en Medellín y toda Colombia. Capacitación certificada. Cotiza hoy mismo por WhatsApp.",
   alternates: {
     canonical: SITE_URL,
   },
@@ -41,9 +41,9 @@ export const metadata = {
   openGraph: {
     type: "website",
     url: SITE_URL,
-    title: "Equipos Atlas | Izaje de Carga y Maquinaria Amarilla",
+    title: "Equipos Atlas | Grúas Telescópicas y Maquinaria Pesada Colombia",
     description:
-      "Equipos Atlas — Alquiler de grúas telescópicas, telehandlers y camabajas para izaje de carga industrial en Colombia.",
+      "Alquiler de grúas telescópicas, telehandlers y camabajas en Medellín y toda Colombia. Capacitación certificada.",
     images: [{ url: LOGO_URL, width: 1200, height: 630 }],
   },
   verification: {
@@ -69,6 +69,7 @@ const jsonLd = {
   email: "gerencia@equiposatlas.com",
   address: {
     "@type": "PostalAddress",
+    addressLocality: "Medellín",
     addressCountry: "CO",
   },
   areaServed: "CO",
